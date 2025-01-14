@@ -13,6 +13,7 @@ const main_source = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	place_platform()
 	place_boundaries()
 	pass
 	
