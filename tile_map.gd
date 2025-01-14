@@ -34,7 +34,6 @@ func place_boundaries():
 func place_platform():
 	for y in range(3):
 		for x in range(3):
-			print(x, y)
 			set_cell(layers.level0, Vector2i(2 + x, 2 + y), main_source, green_block_atlas_pos)
 	set_cell(layers.level1, Vector2i(2, 2), main_source, blue_block_atlas_pos)
 
