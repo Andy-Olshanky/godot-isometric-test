@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://y5apjk0eoy2a"]
+
+[ext_resource type="PackedScene" uid="uid://83x67rm3mmkb" path="res://tile_map.tscn" id="1_sp1wa"]
+
+[node name="main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="TileMap2" parent="." instance=ExtResource("1_sp1wa")]
