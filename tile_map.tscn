@@ -15,12 +15,16 @@ texture_region_size = Vector2i(32, 32)
 2:0/0/texture_origin = Vector2i(0, -8)
 3:0/0 = 0
 3:0/0/texture_origin = Vector2i(0, -8)
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, 24, 16, 16, 0, 8, -16, 16)
 4:0/0 = 0
 4:0/0/texture_origin = Vector2i(0, -8)
 5:0/0 = 0
 5:0/0/texture_origin = Vector2i(0, -8)
 6:0/0 = 0
 6:0/0/texture_origin = Vector2i(0, -8)
+0:1/0 = 0
+0:1/0/texture_origin = Vector2i(0, -8)
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -8, 16, 0, 0, 8, -16, 0)
 
 [sub_resource type="TileSet" id="TileSet_ca8tv"]
 tile_shape = 1
@@ -40,7 +44,7 @@ layer_0/tile_data = PackedInt32Array(-65535, 131072, 0, 1, 131072, 0, 65537, 131
 layer_1/name = "level1"
 layer_1/y_sort_enabled = true
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(-65536, 196608, 0, -131071, 196608, 0, -131072, 196608, 0)
+layer_1/tile_data = PackedInt32Array(-65536, 196608, 0, -131071, 196608, 0, -131072, 196608, 0, -196605, 196608, 0)
 layer_2/name = "level2"
 layer_2/y_sort_enabled = true
 layer_2/y_sort_origin = 2

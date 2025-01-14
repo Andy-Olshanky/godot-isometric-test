@@ -4,9 +4,12 @@
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_q0x5g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g5mdn"]
-radius = 43.0465
+radius = 35.0143
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+scale = Vector2(0.2, 0.2)
 script = ExtResource("1_q0x5g")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
