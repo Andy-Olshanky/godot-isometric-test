@@ -9,6 +9,7 @@ enum layers {
 const green_block_atlas_pos = Vector2i(2,0)
 const white_boundary_block_atlas_pos = Vector2i(3,0)
 const white_no_boundary_block_atlas_pos = Vector2i(3,1)
+const black_block_atlas_pos = Vector2i(4,0)
 const boundary_block_atlas_pos = Vector2i(0,1)
 const blue_block_atlas_pos = Vector2i(0,0)
 const main_source = 0
@@ -73,8 +74,8 @@ func _process(delta: float) -> void:
 		#print(player.level)
 		var coords = get_blocks_next_level(player.level)
 		if (coords[0]):
-			move_player_level(player, map_to_local(coords[1]))
-			##print("map coords: ", coords[1], " | local coords", map_to_local(coords[1]))
+			#move_player_level(player, map_to_local(coords[1]))
+			print("map coords: ", coords[1], " | local coords", map_to_local(coords[1]))
 			#remove_boundaries(0)
 			#place_boundaries(1)
 			#move_player(player, map_to_local(coords[1]))
@@ -112,6 +113,24 @@ func get_blocks_next_level(player_level: int) -> Array:
 		var cell = player_spot + offset
 		var source_id = get_cell_source_id(player_level + 1, cell)
 		if source_id != -1:
+			return [true, cell]
+	
+	return [false, Vector2.ZERO]
+
+func get_blocks_lower_level(player_level: int) -> Array:
+	var offsets = [
+		Vector2i(0, 1),
+		Vector2i(1, 2),
+		Vector2i(2, 1),
+		Vector2i(1, 0),
+	]
+	var player_spot = get_tile_map_coords(get_player_coords())
+	for offset in offsets:
+		var cell = player_spot + offset
+		var source_current_level = get_cell_source_id(player_level, cell)
+		var source_lower_level = get_cell_source_id(player_level - 1, cell)
+		#If there is a block below and no block on this level
+		if source_lower_level != -1 and source_current_level == -1:
 			return [true, cell]
 	
 	return [false, Vector2.ZERO]
