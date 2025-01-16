@@ -1,8 +1,6 @@
 extends TileMap
 
 
-var boundary_flag = true
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	TmFunctions.place_platform(self)
@@ -35,11 +33,9 @@ func _process(delta: float) -> void:
 			#remove_boundaries(0)
 			#place_boundaries(1)
 			#move_player(player, map_to_local(coords[1]))
-	#if Input.is_action_just_pressed("other"):
-		#if boundary_flag:
-			#remove_boundaries(0)
-		#else:
-			#place_boundaries(0)
-		#boundary_flag = !boundary_flag
+	if Input.is_action_just_pressed("other"):
+		var cell_atlas = self.get_cell_atlas_coords(player.level, TmFunctions.get_tile_map_coords(self, TmFunctions.get_player_coords(self)))
+		if cell_atlas == TmFunctions.black_block_atlas_pos:
+			print("on black block")
 	#pass
 	

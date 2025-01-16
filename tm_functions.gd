@@ -106,4 +106,4 @@ func move_player_level(map: TileMap, player: CharacterBody2D, move_to: Vector2):
 		move_player(player, move_to)
 		player.z_index += 1
 		player.level += 1
-		
+	
