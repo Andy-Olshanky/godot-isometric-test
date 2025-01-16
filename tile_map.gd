@@ -74,8 +74,8 @@ func _process(delta: float) -> void:
 		#print(player.level)
 		var coords = get_blocks_next_level(player.level)
 		if (coords[0]):
-			#move_player_level(player, map_to_local(coords[1]))
-			print("map coords: ", coords[1], " | local coords", map_to_local(coords[1]))
+			move_player_level(player, map_to_local(coords[1]))
+			#print("map coords: ", coords[1], " | local coords", map_to_local(coords[1]))
 			#remove_boundaries(0)
 			#place_boundaries(1)
 			#move_player(player, map_to_local(coords[1]))
@@ -97,10 +97,10 @@ func get_player_coords() -> Vector2:
 	return self.get_child(0).global_position
 
 func get_tile_map_coords(coords: Vector2) -> Vector2i:
-	print("coords: ", coords)
+	#print("coords: ", coords)
 	return local_to_map(coords)
 	
-func get_blocks_next_level(player_level: int) -> Array:
+func get_blocks_next_level(player_current_level: int) -> Array:
 	#var blocks: Array[Vector2i] = []
 	var offsets = [
 		Vector2i(-1, -2),
@@ -111,13 +111,13 @@ func get_blocks_next_level(player_level: int) -> Array:
 	var player_spot = get_tile_map_coords(get_player_coords())
 	for offset in offsets:
 		var cell = player_spot + offset
-		var source_id = get_cell_source_id(player_level + 1, cell)
+		var source_id = get_cell_source_id(player_current_level + 1, cell)
 		if source_id != -1:
 			return [true, cell]
 	
 	return [false, Vector2.ZERO]
 
-func get_blocks_lower_level(player_level: int) -> Array:
+func get_blocks_lower_level(player_current_level: int) -> Array:
 	var offsets = [
 		Vector2i(0, 1),
 		Vector2i(1, 2),
@@ -127,8 +127,8 @@ func get_blocks_lower_level(player_level: int) -> Array:
 	var player_spot = get_tile_map_coords(get_player_coords())
 	for offset in offsets:
 		var cell = player_spot + offset
-		var source_current_level = get_cell_source_id(player_level, cell)
-		var source_lower_level = get_cell_source_id(player_level - 1, cell)
+		var source_current_level = get_cell_source_id(player_current_level, cell)
+		var source_lower_level = get_cell_source_id(player_current_level - 1, cell)
 		#If there is a block below and no block on this level
 		if source_lower_level != -1 and source_current_level == -1:
 			return [true, cell]
@@ -140,9 +140,10 @@ func move_player(player: CharacterBody2D, move_to: Vector2):
 
 func move_player_level(player: CharacterBody2D, move_to: Vector2):
 	if player.z_index == 1:
-		player.z_index += 1
 		remove_boundaries(0)
 		place_boundaries(1)
 		replace_white_blocks(1)
 		move_player(player, move_to)
+		player.z_index += 1
+		player.level += 1
 		
