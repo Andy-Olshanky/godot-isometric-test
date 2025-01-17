@@ -5,6 +5,18 @@ extends TileMap
 func _ready() -> void:
 	TmFunctions.place_platform(self)
 	TmFunctions.place_boundaries(self, 0)
+	
+	var player = get_child(0)  # Assuming player is first child of TileMap
+	
+	if get_tree().has_meta("player_spawn_position"):
+		player.position = get_tree().get_meta("player_spawn_position")
+		player.level = get_tree().get_meta("player_level")
+		player.z_index = get_tree().get_meta("player_z_index")
+		
+		# Clean up metadata
+		get_tree().remove_meta("player_spawn_position")
+		get_tree().remove_meta("player_level")
+		get_tree().remove_meta("player_z_index")
 	#test_this()
 	pass
 	
@@ -40,6 +52,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("other"):
 		var cell_atlas = self.get_cell_atlas_coords(player.level, TmFunctions.get_tile_map_coords(self, TmFunctions.get_player_coords(self)))
 		if cell_atlas == TmFunctions.black_block_atlas_pos:
-			print("on black block")
+			#print("on black block")
+			TmFunctions.switch_scene("res://secondary.tscn", Vector2(16, 0), self)
 	#pass
 	

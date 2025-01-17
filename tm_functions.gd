@@ -126,4 +126,11 @@ func move_player_level(map: TileMap, player: CharacterBody2D, move_to: Vector2):
 		move_player(player, move_to)
 		player.z_index -= 1
 		player.level -= 1
-	
+
+func switch_scene(scene_path: String, player_position: Vector2, map: TileMap) -> void:
+	var player = map.get_child(0)  # Assuming player is first child of TileMap
+	# Store player data in metadata
+	get_tree().set_meta("player_spawn_position", player_position)
+	get_tree().set_meta("player_level", player.level)
+	get_tree().set_meta("player_z_index", player.z_index)
+	get_tree().change_scene_to_file(scene_path)

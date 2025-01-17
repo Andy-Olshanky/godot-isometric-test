@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch1o5xbbxdbdk"]
+[gd_scene load_steps=6 format=3 uid="uid://ch1o5xbbxdbdk"]
 
 [ext_resource type="Texture2D" uid="uid://duqtpmnm1qo83" path="res://iso_tileset.png" id="1_qe4qf"]
 [ext_resource type="Script" path="res://secondary_tile_map.gd" id="2_dstaw"]
+[ext_resource type="PackedScene" uid="uid://bpom6bsjuk2k5" path="res://character_body_2d.tscn" id="3_k5en3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ws71h"]
 texture = ExtResource("1_qe4qf")
@@ -63,3 +64,6 @@ layer_1/y_sort_origin = 1
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(-393216, 196608, 0, -327681, 196608, 0)
 script = ExtResource("2_dstaw")
+
+[node name="CharacterBody2D" parent="TileMap" instance=ExtResource("3_k5en3")]
+position = Vector2(16, -3)
