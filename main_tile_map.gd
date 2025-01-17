@@ -26,7 +26,11 @@ func _process(delta: float) -> void:
 	var player = self.get_child(0)
 	if Input.is_action_just_pressed("jump"):
 		#print(player.level)
-		var coords = TmFunctions.get_blocks_next_level(self, player.level)
+		var coords
+		if player.level == 0:
+			coords = TmFunctions.get_blocks_next_level(self, player.level)
+		else:
+			coords = TmFunctions.get_blocks_lower_level(self, player.level)
 		if (coords[0]):
 			TmFunctions.move_player_level(self, player, map_to_local(coords[1]))
 			#print("map coords: ", coords[1], " | local coords", map_to_local(coords[1]))

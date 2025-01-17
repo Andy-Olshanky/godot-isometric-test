@@ -47,11 +47,19 @@ func place_platform(map: TileMap):
 			map.set_cell(layers.level0, Vector2i(2 + x, 2 + y), main_source, green_block_atlas_pos)
 	map.set_cell(layers.level1, Vector2i(2, 2), main_source, blue_block_atlas_pos)
 
-func replace_white_blocks(map: TileMap, level: int):
+func replace_white_blocks(map: TileMap, level: int, place_boundary_blocks: bool):
 	var used = map.get_used_cells(level)
+	var check_for_block
+	var set_block
+	if place_boundary_blocks:
+		check_for_block = white_no_boundary_block_atlas_pos
+		set_block = white_boundary_block_atlas_pos
+	else:
+		check_for_block = white_boundary_block_atlas_pos
+		set_block = white_no_boundary_block_atlas_pos
 	for spot in used:
-		if map.get_cell_atlas_coords(level, spot) == white_boundary_block_atlas_pos:
-			map.set_cell(level, spot, main_source, white_no_boundary_block_atlas_pos)
+		if map.get_cell_atlas_coords(level, spot) == check_for_block:
+			map.set_cell(level, spot, main_source, set_block)
 	
 func get_player_coords(map: TileMap) -> Vector2:
 	return map.get_child(0).global_position
@@ -84,14 +92,19 @@ func get_blocks_lower_level(map: TileMap, player_current_level: int) -> Array:
 		Vector2i(2, 1),
 		Vector2i(1, 0),
 	]
-	var player_spot = map.get_tile_map_coords(get_player_coords(map))
+	var player_spot = TmFunctions.get_tile_map_coords(map, get_player_coords(map))
 	for offset in offsets:
 		var cell = player_spot + offset
 		var source_current_level = map.get_cell_source_id(player_current_level, cell)
 		var source_lower_level = map.get_cell_source_id(player_current_level - 1, cell)
+		var atlas_coords_current_level = map.get_cell_atlas_coords(player_current_level, cell)
+		print(atlas_coords_current_level, atlas_coords_current_level == boundary_block_atlas_pos)
 		#If there is a block below and no block on this level
-		if source_lower_level != -1 and source_current_level == -1:
-			return [true, cell]
+		if source_lower_level != -1:
+			if source_current_level == -1: 
+				return [true, cell]
+			elif atlas_coords_current_level == boundary_block_atlas_pos:
+				return [true, cell]
 	
 	return [false, Vector2.ZERO]
 
@@ -102,8 +115,15 @@ func move_player_level(map: TileMap, player: CharacterBody2D, move_to: Vector2):
 	if player.z_index == 1:
 		remove_boundaries(map, 0)
 		place_boundaries(map, 1)
-		replace_white_blocks(map, 1)
+		replace_white_blocks(map, 1, false)
 		move_player(player, move_to)
 		player.z_index += 1
 		player.level += 1
+	elif player.z_index == 2:
+		remove_boundaries(map, 1)
+		place_boundaries(map, 0)
+		replace_white_blocks(map, 1, true)
+		move_player(player, move_to)
+		player.z_index -= 1
+		player.level -= 1
 	
